@@ -113,7 +113,7 @@ export class GitTool implements Tool {
      *
      * @param message - 新的提交信息
      *   - undefined / null：执行 `git commit --amend`（不修改提交信息，可添加遗漏文件）
-     *   - ''（空字符串）：执行 `git commit --amend --allow-empty-message`
+     *   - ''（空字符串）：执行 `git commit --amend --no-edit`（保留原提交信息，仅修正内容）
      *   - 非空字符串：执行 `git commit --amend -m 'message'`
      * @returns 修正结果信息
      *
@@ -128,7 +128,7 @@ export class GitTool implements Tool {
             return this.execute('commit --amend');
         }
         if (message === '') {
-            return this.execute('commit --amend --allow-empty-message');
+            return this.execute('commit --amend --no-edit');
         }
         const escaped = message.replace(/'/g, `'\\''`);
         return this.execute(`commit --amend -m '${escaped}'`);
